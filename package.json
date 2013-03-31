@@ -1,6 +1,6 @@
 {
   "name": "signaal",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A representation of values over time",
   "keywords": [],
   "author": "Raynos <raynos2@gmail.com>",
