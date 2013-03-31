@@ -1,5 +1,7 @@
 var SignalSource = require("./source")
 
+module.exports = merge
+
 // merge :: [Signal<A>] -> Signal<A>
 function merge(signals) {
     var value = signals[0]

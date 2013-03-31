@@ -21,7 +21,8 @@
     "tape": "~0.2.2",
     "browserify-server": "~2.1.18",
     "browservefy": "https://github.com/raynos/browservefy/tarball/master",
-    "tryme": "https://github.com/raynos/tryme/tarball/master"
+    "tryme": "https://github.com/raynos/tryme/tarball/master",
+    "xtend": "~2.0.3"
   },
   "licenses": [
     {

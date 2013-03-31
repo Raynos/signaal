@@ -1,5 +1,7 @@
 var SignalSource = require("./source")
 
+module.exports = foldp
+
 // foldp :: Signal<A> -> (X -> A -> X) -> X -> Signal<X>
 function foldp(signal, lambda, initialValue) {
     var state = initialValue

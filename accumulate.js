@@ -2,6 +2,8 @@ var foldp = require("./foldp")
 var merge = require("./merge")
 var transform = require("./transform")
 
+module.exports = accumulate
+
 // accumulate :: [(DuplexSignal<T>, T -> A)] -> A -> Signal<A>
 function accumulate(list, initialState) {
     var signals = list.map(function toSignalOfFunctions(tuple) {

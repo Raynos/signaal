@@ -77,6 +77,8 @@
 
 */
 
+module.exports = SignalSource
+
 // SignalSource :: generator:(broadcast:(A -> void) -> void) -> A -> Signal<A>
 function SignalSource(generator, initialState) {
     var currentState = initialState
