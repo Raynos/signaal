@@ -1,4 +1,4 @@
-/* A SignalSource is a very simple representation
+/*  A SignalSource is a very simple representation
 
     It represents a value over time. This value changes discretely
 
@@ -76,30 +76,35 @@
     ```
 
 */
+
+// SignalSource :: generator:(broadcast:(A -> void) -> void) -> A -> Signal<A>
 function SignalSource(generator, initialState) {
     var currentState = initialState
     var listeners = []
     var started = false
 
+    generator(broadcast)
+
+    // the generator is passed the broadcast function which
+    // it can use to broadcast a discrete change in state to
+    // all those that have registered interest.
     function broadcast(value) {
         currentState = value
         listeners.forEach(function (f) { f(currentState) })
     }
 
-    return function signal(callback) {
-        if (!callback) {
+    return function signal(listener) {
+        // in the pull model we just return the state
+        if (!listener) {
             return currentState
         }
 
-        if (!started) {
-            started = true
-            generator(broadcast)
-        }
-
-        listeners.push(callback)
+        // in the push model we register your interest by putting
+        // you in our listeners list
+        listeners.push(listener)
 
         return function remove() {
-            listeners.splice(listeners.indexOf(callback), 1)
+            listeners.splice(listeners.indexOf(listener), 1)
         }
     }
 }
