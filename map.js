@@ -1,9 +1,9 @@
 var SignalSource = require("./source")
 
-module.exports = transform
+module.exports = map
 
-// transform :: Signal<A> -> (A -> B) -> Signal<B>
-function transform(signal, lambda) {
+// map :: Signal<A> -> (A -> B) -> Signal<B>
+function map(signal, lambda) {
     return SignalSource(function generator(broadcast) {
         signal(function listener(value) {
             broadcast(lambda(value))

@@ -1,6 +1,6 @@
 var foldp = require("./foldp")
 var merge = require("./merge")
-var transform = require("./transform")
+var map = require("./map")
 
 module.exports = accumulate
 
@@ -10,7 +10,7 @@ function accumulate(list, initialState) {
         var signal = tuple[0]
         var lambda = tuple[1]
 
-        return transform(signal, function toTransition(value) {
+        return map(signal, function toTransition(value) {
             return function transition(state) {
                 return lambda(state, value)
             }

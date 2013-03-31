@@ -1,6 +1,6 @@
 var extend = require("xtend")
 
-var transform = require("../transform")
+var map = require("../map")
 var Signal = require("../state")
 var Source = require("../source")
 
@@ -21,7 +21,7 @@ var flower = Signal()
     })
     .initial({ shines: 0, roots: 0 })
 
-var view = transform(flower, function (flower) {
+var view = map(flower, function (flower) {
     return "" +
         "<div>" +
             "<span> Roots : " + flower.roots + " </span>" +
