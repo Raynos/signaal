@@ -1,8 +1,4 @@
-/* Monads?
-
-*/
-
-/* A Signal is a very simple representation
+/* A SignalSource is a very simple representation
 
     It represents a value over time. This value changes discretely
 
@@ -37,28 +33,73 @@
         function which we can call later to stop listening to
         change messages on the signal.
 
-*/
-function Signal(generator) {
-    var currentState, listeners = []
 
-    generator(function (value) {
+    ```js
+    function time(interval) {
+        return SignalSource(function (broadcast) {
+            setInterval(function () {
+                broadcast(Date.now())
+            }, interval)
+        }, Date.now())
+    }
+    ```
+
+    ```js
+    // an Event doesn't have an initialState :/
+    function events(element, type) {
+        return SignalSource(function (broadcast) {
+            element.addEventListener(type, function (ev) {
+                broadcast(ev)
+            })
+        }, null)
+    }
+    ```
+
+    ```js
+    // the route events for the window have an initial state
+    // where newURL === oldURL. This is weird :/
+    function router(window) {
+        return SignalSource(function (broadcast) {
+            window.addEventListener("hashchange", function (ev) {
+                broadcast({
+                    hash: document.location.hash,
+                    newURL: ev.newURL,
+                    oldURL: ev.oldURL
+                })
+            })
+        }, {
+            hash: document.location.hash,
+            newURL: document.location.href,
+            oldURL: document.location.href
+        })
+    }
+    ```
+
+*/
+function SignalSource(generator, initialState) {
+    var currentState = initialState
+    var listeners = []
+    var started = false
+
+    function broadcast(value) {
         currentState = value
         listeners.forEach(function (f) { f(currentState) })
-    })
+    }
 
     return function signal(callback) {
         if (!callback) {
             return currentState
         }
 
+        if (!started) {
+            started = true
+            generator(broadcast)
+        }
+
         listeners.push(callback)
 
         return function remove() {
-            for (var i = 0; i < listeners.length; i++) {
-                if (listeners[i] === callback) {
-                    return listeners.splice(i, 1)
-                }
-            }
+            listeners.splice(listeners.indexOf(callback), 1)
         }
     }
 }
