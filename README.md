@@ -11,9 +11,9 @@ A representation of values over time
 ```js
 var extend = require("xtend")
 
-var map = require("../map")
-var Signal = require("../state")
-var Source = require("../source")
+var map = require("signaal/map")
+var Signal = require("signaal/state")
+var Source = require("signaal/source")
 
 var sunshine = Source(function (broadcast) {
     setInterval(broadcast, 1000)
